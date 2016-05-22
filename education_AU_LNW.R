@@ -8,7 +8,7 @@ Australia <- read.csv(file="ABS_data/Australia_stats.csv",
 Launceston_NW <- read.csv(file="ABS_data/Launceston_NW.csv",
                       stringsAsFactors=FALSE)
 
-# Create Region factor column 
+# Create Region factor column
 Aust_tmp <- mutate(Australia, Region = "AU")
 LNW_tmp  <- mutate(Launceston_NW, Region = "LNW")
 
@@ -38,12 +38,13 @@ print(education)
 g <- ggplot(data = education, aes(x = Region, y = Value)) +
   geom_bar(stat = "identity", fill="#FF9999", colour="black") +
   coord_fixed(ratio = .05) +
-  labs(title = "Post High School Qualifications (2011 Cencus)",
+  labs(title = "Post High School Qualifications \n (2011 Cencus)",
        x = "Region", y = "Percentage") +
-  geom_text(aes(label=Value), 
-            position=position_dodge(width=0.9), 
-            vjust=-0.25,
-            size = 6
+  scale_y_continuous(limits = c(0,60)) +
+  geom_text(aes(label=Value),
+            position=position_dodge(width=0.9),
+            vjust=-0.40,
+            size = 5
             ) +
   theme_linedraw()
 

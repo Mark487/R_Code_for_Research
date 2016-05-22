@@ -9,7 +9,7 @@ Australia <- read.csv(file="ABS_data/Australia_stats.csv",
 Launceston_NW <- read.csv(file="ABS_data/Launceston_NW.csv",
                       stringsAsFactors=FALSE)
 
-# Create Region factor column 
+# Create Region factor column
 Aust_tmp <- mutate(Australia, Region = "AU")
 LNW_tmp  <- mutate(Launceston_NW, Region = "LNW")
 
@@ -33,21 +33,25 @@ combined$Code <- as.factor(combined$Code)
 education <- filter(combined, grepl('^SCHOOL_', Code), Code != "SCHOOL_2") %>%
             select(Region, Value, Code, Description)
 # Split Description column
-education <- separate(education, Description, 
-                     into = c("Type","Level"), 
+education <- separate(education, Description,
+                     into = c("Type","Level"),
                      sep = " - ")
 education <- select(education, -Type)
 # Strip ending '(%)'
 education$Level <- sub("\\(\\%\\)", "", education$Level)
+# Strip 'With '
+education$Level <- sub("^With ", "", education$Level)
 
 # plot data: ggplot2
 g <-
   ggplot(data = education, aes(x = Level, y = Value, fill = Region)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   coord_flip() +
-  labs(title = "Post High School Qualifications (2011 Cencus)", 
-       x = "", y = "Percentage") +
-  theme_linedraw()
+  ggtitle("Post High School Qualifications (2011 Cencus)") +
+  labs(x = "", y = "Percentage") +
+  theme(axis.text.y  = element_text(vjust=.25, size=10) ) +
+    theme(panel.background = element_rect(fill='white', colour='black'))
+
 
 print(g)
 
