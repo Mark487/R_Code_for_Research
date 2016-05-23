@@ -20,10 +20,25 @@ participation <- filter(combined, statistic=="Participation rate")
 emp_graph <- ggplot(data = unemployment, aes(region, value, fill=region)) +
     geom_bar(stat="identity") +
     ggtitle("Unemployment rate (2011)") +
-    labs(x="", y="Percentage") + guides(fill=FALSE) + theme_linedraw()
+    labs(x="", y="Percentage") + guides(fill=FALSE) +
+    scale_y_continuous(limits = c(0,18)) +
+    geom_text(aes(label=value),
+              position=position_dodge(width=0.9),
+              vjust=-0.40,
+              size = 5
+    ) +
+    theme_linedraw()
+
 part_graph <- ggplot(data = participation, aes(region, value, fill=region)) +
     geom_bar(stat="identity") +
     ggtitle("Participation rate (2011)") +
-    labs(x="", y="Percentage") + guides(fill=FALSE) + theme_linedraw()
+    labs(x="", y="Percentage") + guides(fill=FALSE) +
+    scale_y_continuous(limits = c(0,70)) +
+    geom_text(aes(label=value),
+              position=position_dodge(width=0.9),
+              vjust=-0.40,
+              size = 5
+    ) +
+    theme_linedraw()
 
 multiplot(emp_graph, part_graph, cols = 2)
